@@ -1,0 +1,62 @@
+version: '3.7'
+services:
+
+  redis:
+    image: redis:6.0-alpine
+    container_name: redis
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  worker:
+    container_name: worker
+    depends_on:
+      - backend
+    build: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.local
+    restart: unless-stopped
+    command: poetry run python manage.py runworker
+    volumes:
+      - code:/code/db.sqlite
+  
+  beat:
+    container_name: beat
+    build: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.local
+    depends_on:
+      - worker
+    command: poetry run python manage.py runbeat
+    restart: unless-stopped
+    volumes:
+      - code:/code/db.sqlite
+
+  flower:
+    container_name: flower
+    build: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.local
+    depends_on:
+      - worker
+    command: poetry run python manage.py runflower
+    restart: unless-stopped
+    ports:
+      - 5555:5555
+    
+  backend:
+    container_name: backend
+    build: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.local
+      - PORT=8080
+    command: sh scripts/run_server.sh
+    restart: unless-stopped   
+    volumes:
+      - code:/code/db.sqlite
+    ports:
+    - 8080:8080
+
+volumes:
+  redis_data:
+  code:

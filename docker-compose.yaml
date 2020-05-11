@@ -1,0 +1,70 @@
+version: '3.7'
+services:
+
+  redis:
+    image: redis:6.0-alpine
+    container_name: redis
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  worker:
+    container_name: worker
+    depends_on:
+      - backend
+    image: backend
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.prod
+    restart: unless-stopped
+    command: poetry run python manage.py runworker
+  
+  beat:
+    container_name: beat
+    image: backend:latest
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.prod
+    depends_on:
+      - worker
+    command: poetry run python manage.py runbeat
+    restart: unless-stopped
+
+
+  flower:
+    container_name: flower
+    image: backend
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.prod
+    depends_on:
+      - worker
+    command: poetry run python manage.py runflower
+    restart: unless-stopped
+
+  backend:
+    container_name: backend
+    depends_on:
+      - db
+    image: backend
+    environment:
+      - DJANGO_SETTINGS_MODULE=settings.prod
+      - PORT=8080
+    command: sh scripts/run_server.sh
+    restart: unless-stopped
+    
+  db:
+    image: postgres:12.2-alpine
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    
+networks:
+  default:
+    external:
+      name: infra
+
+volumes:
+  db_data:
+  redis_data:

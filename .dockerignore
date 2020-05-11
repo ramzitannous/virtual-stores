@@ -1,0 +1,14 @@
+venv
+.git
+.idea
+Dockerfile
+docker-compose.yaml
+docker-compose.local.yaml
+*.pid
+*.bak
+*.dir
+*.dat
+.github
+dumps
+.venv
+media
