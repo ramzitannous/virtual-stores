@@ -5,7 +5,7 @@ if [ "${DJANGO_SETTINGS_MODULE}" == "settings.local" ]; then
     
 else
     
-    poetry run python scrips/wait_db.py && \
+    poetry run python wait_db.py && \
     poetry run python manage.py migrate && \
     poetry run python manage.py createadmin && \
     poetry run python manage.py runbackend
