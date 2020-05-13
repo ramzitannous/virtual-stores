@@ -57,7 +57,8 @@ INSTALLED_APPS = [
 
 MY_APPS = [
     "shared",
-    "users"
+    "users",
+    "stores"
 ]
 
 THIRD_PARTY_APPS = [
@@ -202,5 +203,6 @@ if enable_email:
     EMAIL_HOST_USER = get_env("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = get_env("EMAIL_HOST_PASSWORD")
     EMAIL_USE_TLS = True
+    DEFAULT_FROM_EMAIL = get_env("DEFAULT_FROM_EMAIL")
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'

@@ -6,7 +6,7 @@ from users.models import CustomUser
 class UserGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ("id", "email", "image", "phone")
+        fields = ("id", "email", "image", "phone", "first_name", "last_name")
 
 
 class UserCreateSerializer(UserCreatePasswordRetypeSerializer):
@@ -14,4 +14,4 @@ class UserCreateSerializer(UserCreatePasswordRetypeSerializer):
 
     class Meta(UserCreatePasswordRetypeSerializer.Meta):
         fields = UserCreatePasswordRetypeSerializer.Meta.fields +\
-                 ("re_password", "image", "phone")
+                 ("re_password", "image", "phone", "first_name", "last_name")

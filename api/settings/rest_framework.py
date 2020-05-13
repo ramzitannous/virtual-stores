@@ -1,6 +1,14 @@
 REST_FRAMEWORK = {
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
 
+    "TEST_REQUEST_RENDERER_CLASSES": [
+        "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
+    ],
+
+    "TEST_REQUEST_PARSER_CLASSES": [
+        "djangorestframework_camel_case.parser.CamelCaseJSONRenderer",
+    ],
+
     "DEFAULT_PAGINATION_CLASS": "shared.paging.CustomPagination",
 
     "DEFAULT_RENDERER_CLASSES": (
