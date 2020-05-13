@@ -7,4 +7,4 @@ DATABASES['default'] = dj_database_url.config(default=get_env("DATABASE_URL"), c
 
 SECRET_KEY = get_env("SECRET_KEY")
 
-ALLOWED_HOSTS = [get_env("DOMAIN")]
+ALLOWED_HOSTS = [get_env("DOMAIN_NAME")]
