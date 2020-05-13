@@ -2,17 +2,20 @@ import logging
 from time import time, sleep
 import psycopg2
 from settings.base import get_env
+import dj_database_url
 
 TIMEOUT = 30
 INTERVAL = 1
 
 
+db = dj_database_url.parse(get_env("DATABASE_URL"))
+
 config = {
-    "dbname": get_env("DB_NAME"),
-    "user": get_env("DB_USER"),
-    "password": get_env("DB_PASSWORD"),
-    "host": get_env("DB_HOST"),
-    "port": get_env("DB_PORT")
+    "dbname": db["NAME"],
+    "user": db["USER"],
+    "password": db["PASSWORD"],
+    "host": db["HOST"],
+    "port": db["PORT"]
 }
 
 start_time = time()

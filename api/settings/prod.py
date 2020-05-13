@@ -1,17 +1,9 @@
 from .sentry import *
+import dj_database_url
 
 DEBUG = False
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': get_env("DB_NAME"),
-        'USER': get_env("DB_USER"),
-        'PASSWORD': get_env("DB_PASSWORD"),
-        'HOST': get_env("DB_HOST"),
-        'PORT': get_env("DB_PORT")
-    }
-}
+DATABASES['default'] = dj_database_url.config(default=get_env("DATABASE_URL"), conn_max_age=600)
 
 SECRET_KEY = get_env("SECRET_KEY")
 

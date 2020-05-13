@@ -204,3 +204,5 @@ if enable_email:
     DEFAULT_FROM_EMAIL = get_env("DEFAULT_FROM_EMAIL")
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+DATABASES = {}
