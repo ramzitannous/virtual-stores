@@ -12,7 +12,8 @@ services:
     container_name: worker
     depends_on:
       - backend
-    build: .
+    build: 
+      dockerfile: Dockerfile.local
     environment:
       - DJANGO_SETTINGS_MODULE=settings.local
     restart: unless-stopped
@@ -22,7 +23,8 @@ services:
   
   beat:
     container_name: beat
-    build: .
+    build: 
+      dockerfile: Dockerfile.local
     environment:
       - DJANGO_SETTINGS_MODULE=settings.local
     depends_on:
@@ -34,7 +36,8 @@ services:
 
   flower:
     container_name: flower
-    build: .
+    build:
+      dockerfile: Dockerfile.local
     environment:
       - DJANGO_SETTINGS_MODULE=settings.local
     depends_on:
@@ -46,7 +49,8 @@ services:
     
   backend:
     container_name: backend
-    build: .
+    build:
+      dockerfile: Dockerfile.local
     environment:
       - DJANGO_SETTINGS_MODULE=settings.local
       - PORT=8080
