@@ -16,7 +16,8 @@ def create_admin():
     print("\n")
     print("----------------------------------------------------------------------------------")
     User: AbstractUser = get_user_model()
-    user, created = User.objects.get_or_create(email=ADMIN_EMAIL, is_superuser=True, is_staff=True)
+    user, created = User.objects.get_or_create(email=ADMIN_EMAIL, is_superuser=True,
+                                               is_staff=True, first_name="Stores", last_name="Admin")
     if created:
         user.set_password(ADMIN_PASSWORD)
         user.save()

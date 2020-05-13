@@ -57,6 +57,11 @@ LOGGING = {
         },
         "": {
             'handlers': ['console'],
+            'level': 'WARNING'
+        },
+
+        "stores": {
+            'handlers': ['console'],
             'level': 'DEBUG'
         }
     }
