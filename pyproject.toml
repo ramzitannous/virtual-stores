@@ -23,6 +23,7 @@ redis = "^3.5.1"
 python-dotenv = "^0.13.0"
 drf-nested-serializer = "^0.1.0"
 dj_database_url = "^0.5.0"
+whitenoise = "^5.0.1"
 
 [tool.poetry.dev-dependencies]
 factory-boy = "^2.12.0"
