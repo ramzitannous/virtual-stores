@@ -138,8 +138,6 @@ LOGOUT_URL = "/auth/logout"
 
 enable_email = bool(int(get_env("ENABLE_EMAIL")))
 
-DJOSER_SEND_EMAILS = enable_email
-
 DJOSER = {
     "SERIALIZERS": {
         "user": "users.serializers.UserGetSerializer",

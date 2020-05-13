@@ -23,7 +23,7 @@ COPY ./api .
 
 COPY ./scripts ./scripts
 
-RUN poetry run python manage.py collectstatic --noinput 
+RUN poetry run python manage.py collectstatic --noinput --settings=settings.build
 
 RUN chmod +x scripts/run_server.sh
 
