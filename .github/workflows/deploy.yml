@@ -18,12 +18,14 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login 
         
-      - uses: whoan/docker-build-with-cache-action@v5
+      - name: publish image
+        uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          image_name: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+          name: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
           username: _
           password: "${{ secrets.HEROKU_API_KEY }}"
           registry: registry.heroku.com
+          cache: true
     
       - name: Release
         env:
