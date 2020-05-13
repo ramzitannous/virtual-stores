@@ -40,6 +40,10 @@ def main():
         from scripts.setup import create_admin
         create_admin()
 
+    elif arg == "waitdb":
+        from scripts.wait_db import pg_isready
+        pg_isready()
+
     else:
         execute_from_command_line(sys.argv)
 

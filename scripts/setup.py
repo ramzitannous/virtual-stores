@@ -5,7 +5,7 @@ django.setup()
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
-from api.settings.base import get_env
+from settings.base import get_env
 
 ADMIN_EMAIL = get_env("ADMIN_EMAIL")
 ADMIN_PASSWORD = get_env("ADMIN_PASSWORD")
