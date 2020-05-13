@@ -23,6 +23,7 @@ jobs:
           image_name: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
           username: _
           password: "${{ secrets.HEROKU_API_KEY }}"
+          registry: registry.heroku.com
     
       - name: Release
         env:
