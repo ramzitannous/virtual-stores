@@ -12,8 +12,8 @@ from stores.serializers import StoreSerializer, StoreReviewSerializer
 
 class StoreViewMixin(ModelViewSet):
     serializer_class = StoreSerializer
-    queryset = Store.objects.select_related("address", "owner")\
-        .annotate(reviews_avg=Avg("storereview__rating"), reviews_count=Count("storereview"))\
+    queryset = Store.objects.select_related("address", "owner") \
+        .annotate(reviews_avg=Avg("storereview__rating"), reviews_count=Count("storereview")) \
         .filter(is_active=True)
     permission_classes = BUSINESS_PERMISSIONS
     ordering_fields = ("reviews_avg",)
@@ -33,7 +33,7 @@ class StoreReviewListCreateView(GenericViewSet, CreateModelMixin, ListModelMixin
     serializer_class = StoreReviewSerializer
 
     def get_queryset(self):
-        return StoreReview.objects.select_related("owner")\
+        return StoreReview.objects.select_related("owner") \
             .filter(store_id=self.kwargs.get("store_id"))
 
     def create(self, request, *args, **kwargs):
@@ -43,4 +43,3 @@ class StoreReviewListCreateView(GenericViewSet, CreateModelMixin, ListModelMixin
         review = StoreReview.objects.create(**review_serializer.validated_data, store=store, owner=self.request.user)
         response_serializer = StoreReviewSerializer(review)
         return Response(response_serializer.data, status=201)
-

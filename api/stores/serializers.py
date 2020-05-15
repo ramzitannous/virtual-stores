@@ -1,23 +1,33 @@
 from rest_framework import serializers
-from drf_nested_serializer.serializers import NestedModelSerializer
-from stores.models import Store, StoreReview
+
+from stores.models import Store, StoreReview, StoreAddress
 from accounts.models import Account
 
 
-class StoreSerializer(NestedModelSerializer):
+class StoreAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoreAddress
+        fields = "__all__"
+
+
+class StoreSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
     is_active = serializers.BooleanField(read_only=True)
     owner_id = serializers.UUIDField(source="owner.id", read_only=True)
     reviews_count = serializers.IntegerField(read_only=True)
     reviews_avg = serializers.DecimalField(read_only=True, max_digits=4, decimal_places=2)
+    address = StoreAddressSerializer(required=True)
 
     class Meta:
         model = Store
         fields = "__all__"
-        nested_fields = ("address",)
+
+    def create(self, validated_data):
+        address = StoreAddress.objects.create(**validated_data.pop("address"))
+        return Store.objects.create(**validated_data, address=address)
 
     def update(self, instance: Store, validated_data: dict):
-        if "address" in validated_data: 
+        if "address" in validated_data:
             new_address = validated_data["address"]
             for k, v in new_address.items():
                 setattr(instance.address, k, v)
