@@ -2,7 +2,6 @@ from django.db.models import QuerySet
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
-from shared.permissions import OwnerPermissionOrAdmin
 
 
 @api_view(["GET"])
@@ -13,7 +12,6 @@ def ping(request):
 
 
 class OwnerViewMixin(GenericAPIView):
-    permission_classes = [OwnerPermissionOrAdmin]
 
     def get_queryset(self):
         assert self.queryset is not None, (

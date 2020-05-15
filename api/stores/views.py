@@ -1,28 +1,35 @@
+from django.db.models import Avg, Count
 from django.shortcuts import get_object_or_404
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListModelMixin, \
-    DestroyModelMixin, UpdateModelMixin
+from rest_framework.decorators import action
+from rest_framework.mixins import CreateModelMixin, ListModelMixin, \
+    DestroyModelMixin
+from shared.permissions import BUSINESS_PERMISSIONS
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from stores.models import Store, StoreReview
 from stores.serializers import StoreSerializer, StoreReviewSerializer
-from stores.permissions import StorePermissions
 
 
-class StoreViewMixin(GenericViewSet,
-                     CreateModelMixin, RetrieveModelMixin, ListModelMixin,
-                     DestroyModelMixin, UpdateModelMixin):
+class StoreViewMixin(ModelViewSet):
     serializer_class = StoreSerializer
-    queryset = Store.objects.select_related("address", "owner").all()
-    permission_classes = [StorePermissions]
+    queryset = Store.objects.select_related("address", "owner")\
+        .annotate(reviews_avg=Avg("storereview__rating"), reviews_count=Count("storereview"))\
+        .filter(is_active=True)
+    permission_classes = BUSINESS_PERMISSIONS
+    ordering_fields = ("reviews_avg",)
+    filterset_fields = ("address__city", "name")
+
+    @action(methods=["get"], detail=False, description="get my stores")
+    def me(self, *args, **kwargs):
+        self.queryset = self.queryset.filter(is_active__in=[True, False], owner=self.request.user)
+        return self.list(*args, **kwargs)
 
 
 class StoreReviewDeleteView(GenericViewSet, DestroyModelMixin):
     queryset = StoreReview.objects.all()
-    permission_classes = [StorePermissions]
 
 
 class StoreReviewListCreateView(GenericViewSet, CreateModelMixin, ListModelMixin):
-    permission_classes = [StorePermissions]
     serializer_class = StoreReviewSerializer
 
     def get_queryset(self):

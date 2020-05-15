@@ -1,5 +1,5 @@
 import logging
-from users.views import UserViewSet
+from accounts.views import AccountViewSet
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
@@ -7,11 +7,14 @@ from stores.views import StoreViewMixin, StoreReviewDeleteView, StoreReviewListC
 
 v1_router = DefaultRouter()
 
+# accounts
+v1_router.register("accounts", AccountViewSet, basename="accounts")
+
 # stores
 v1_router.register('stores', StoreViewMixin, basename="stores")
 v1_router.register("stores/reviews", StoreReviewDeleteView, basename="stores-review")
 v1_router.register(r"stores/(?P<store_id>[^/]+)/reviews", StoreReviewListCreateView, basename="stores-review")
-v1_router.register("users", UserViewSet)
+
 
 urlpatterns = [
     path('', include('djoser.urls.jwt')),

@@ -57,7 +57,7 @@ INSTALLED_APPS = [
 
 MY_APPS = [
     "shared",
-    "users",
+    "accounts",
     "stores"
 ]
 
@@ -126,7 +126,7 @@ USE_TZ = True
 
 REST_FRAMEWORK = REST_FRAMEWORK
 
-AUTH_USER_MODEL = "users.CustomUser"
+AUTH_USER_MODEL = "accounts.Account"
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 500 * 1000 * 1000  # Max 500 MBs
 
@@ -140,9 +140,9 @@ enable_email = bool(int(get_env("ENABLE_EMAIL")))
 
 DJOSER = {
     "SERIALIZERS": {
-        "user": "users.serializers.UserGetSerializer",
-        "current_user": "users.serializers.UserGetSerializer",
-        "user_create_password_retype": "users.serializers.UserCreateSerializer"
+        "user": "accounts.serializers.AccountGetSerializer",
+        "current_user": "accounts.serializers.AccountGetSerializer",
+        "user_create_password_retype": "accounts.serializers.AccountCreateSerializer",
     },
     "SET_PASSWORD_RETYPE": True,
     "PASSWORD_RESET_CONFIRM_RETYPE": True,
@@ -153,7 +153,8 @@ DJOSER = {
     "SEND_ACTIVATION_EMAIL": True,
     "SEND_CONFIRMATION_EMAIL": True,
     "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
-    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True
+    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
+    "TOKEN_MODEL": None
 }
 
 SIMPLE_JWT = {

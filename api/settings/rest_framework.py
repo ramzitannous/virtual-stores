@@ -26,6 +26,7 @@ REST_FRAMEWORK = {
 
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.OrderingFilter"
     ),
 
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -34,7 +35,7 @@ REST_FRAMEWORK = {
     ),
 
     "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
+        "shared.permissions.AppPermission",
     ),
 
     "DEFAULT_THROTTLE_CLASSES": (
@@ -42,11 +43,13 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.UserRateThrottle",
     ),
 
-    "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "500/day"},
+    "DEFAULT_THROTTLE_RATES": {"anon": "10/second", "user": "60/second"},
 
     "PAGE_SIZE": "15",
 
     "DEFAULT_VERSION": "v1",
 
-    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.URLPathVersioning"
+    "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.URLPathVersioning",
+
+    "COERCE_DECIMAL_TO_STRING": False
 }

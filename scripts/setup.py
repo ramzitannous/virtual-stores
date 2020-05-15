@@ -3,6 +3,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings.local")
 import django
 django.setup()
 
+from accounts.enums import AccountTypes, AccountStatus
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from settings.base import get_env
@@ -17,7 +18,13 @@ def create_admin():
     print("----------------------------------------------------------------------------------")
     User: AbstractUser = get_user_model()
     user, created = User.objects.get_or_create(email=ADMIN_EMAIL, is_superuser=True,
-                                               is_staff=True, first_name="Stores", last_name="Admin")
+                                               is_staff=True, first_name="Stores",
+                                               last_name="Admin", type=AccountTypes.BUSINESS)
+    user.status = AccountStatus.VERIFIED,
+    user.on_trial = False
+    user.is_active = True
+    user.save()
+
     if created:
         user.set_password(ADMIN_PASSWORD)
         user.save()

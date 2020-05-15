@@ -20,6 +20,13 @@ class Store(OwnerModel):
     open_time = models.TimeField()
     close_time = models.TimeField()
 
+    def delete(self, using=None, keep_parents=False):
+        self.is_active = False
+        self.save()
+
+    def deactivate(self):
+        self.delete()
+
 
 class StoreReview(OwnerModel):
     title = models.CharField(max_length=400, null=False, blank=False)
