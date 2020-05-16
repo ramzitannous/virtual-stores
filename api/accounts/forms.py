@@ -4,10 +4,10 @@ from .models import Account
 
 
 class AccountCreationForm(UserCreationForm):
-
     class Meta(UserCreationForm):
         model = Account
-        fields = ('email', 'image', "status", "type", "on_trial")
+        fields = ('email', 'first_name', "last_name", 'image',
+                  "status", "type", "on_trial")
 
 
 class AccountChangeForm(UserChangeForm):

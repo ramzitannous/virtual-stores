@@ -3,6 +3,10 @@
 import multiprocessing
 import os
 import sys
+from shared.utils import get_env
+import dotenv
+
+dotenv.load_dotenv()
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings.local")
 CELERY_THREADS = os.environ.get("CELERY_THREADS", 5)
@@ -34,7 +38,8 @@ def main():
         os.system(f'gunicorn -b 0.0.0.0:{port} -w {cpu_count} -k gthread config.wsgi:application --preload')
 
     elif arg == 'runflower':
-        os.system('celery flower -A backend --address=0.0.0.0 --port=5555')
+        os.system(f'celery flower -A config --basic_auth={get_env("ADMIN_EMAIL")}:{get_env("ADMIN_PASSWORD")}\
+         --address=0.0.0.0 --port=5555')
 
     elif arg == "createadmin":
         from scripts.setup import create_admin

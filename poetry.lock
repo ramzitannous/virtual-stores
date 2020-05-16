@@ -192,6 +192,14 @@ Django = ">=1.11"
 
 [[package]]
 category = "main"
+description = "Material Design For Django Administration"
+name = "django-material-admin"
+optional = false
+python-versions = "*"
+version = "1.7.2"
+
+[[package]]
+category = "main"
 description = "Send emails using Django template system."
 name = "django-templated-mail"
 optional = false
@@ -700,7 +708,7 @@ version = "5.0.1"
 brotli = ["brotli"]
 
 [metadata]
-content-hash = "4b5eee8db9b73d488c9a8e891dd0e0ef3d7def5a52f31cb6543f2a47a6d25ef3"
+content-hash = "3a1a42c94e042b157c3124e4e8b9407930ccfff559332a29d6d72abbbce6174d"
 python-versions = "^3.8, <3.9"
 
 [metadata.files]
@@ -758,6 +766,10 @@ django-cors-headers = [
 django-filter = [
     {file = "django-filter-2.2.0.tar.gz", hash = "sha256:c3deb57f0dd7ff94d7dce52a047516822013e2b441bed472b722a317658cfd14"},
     {file = "django_filter-2.2.0-py3-none-any.whl", hash = "sha256:558c727bce3ffa89c4a7a0b13bc8976745d63e5fd576b3a9a851650ef11c401b"},
+]
+django-material-admin = [
+    {file = "django-material-admin-1.7.2.tar.gz", hash = "sha256:bbf4f0cfe2c59c195376c4e8dce5b18834e7a92b31ee3779309d513fb9e1c75d"},
+    {file = "django_material_admin-1.7.2-py3-none-any.whl", hash = "sha256:e2545897dd69bd53c0d90f8033be1bee1affc440d7e12872a2d2f08596ac55c7"},
 ]
 django-templated-mail = [
     {file = "django-templated-mail-1.1.1.tar.gz", hash = "sha256:8db807effebb42a532622e2d142dfd453dafcd0d7794c4c3332acb90656315f9"},

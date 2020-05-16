@@ -1,14 +1,22 @@
 import logging
+import os
+from django.core.exceptions import ImproperlyConfigured
 
-from celery import shared_task
-from versatileimagefield.image_warmer import VersatileImageFieldWarmer
+logger = logging.getLogger("stores."+__name__)
 
-logger = logging.getLogger(__name__)
 
-# todo run on celery
+def get_env(key):
+    try:
+        return os.environ[key]
+    except KeyError:
+        raise ImproperlyConfigured(
+            f"{key} is not part of environment variables, please add !"
+        )
 
 
 def create_thumbnails(pk, model, size_set, image_attr=None):
+    from versatileimagefield.image_warmer import VersatileImageFieldWarmer
+
     instance = model.objects.get(pk=pk)
 
     if not image_attr:

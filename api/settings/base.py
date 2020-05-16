@@ -15,21 +15,11 @@ import pathlib
 from datetime import timedelta
 
 from settings.log import *
-from django.conf import ImproperlyConfigured
+from shared.utils import get_env
 from settings.rest_framework import *
 import dotenv
 
 dotenv.load_dotenv()
-
-
-def get_env(key):
-    try:
-        return os.environ[key]
-    except KeyError:
-        raise ImproperlyConfigured(
-            f"{key} is not part of environment variables, please add !"
-        )
-
 
 BASE_DIR = pathlib.Path(os.path.dirname(__file__)).parent
 
@@ -47,7 +37,6 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -62,6 +51,8 @@ MY_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    "material.admin",
+    "material.admin.default",
     "rest_framework",
     "django_celery_beat",
     "drf_yasg",
@@ -193,7 +184,7 @@ STATIC_ROOT = "static"
 
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = BASE_DIR.parent / 'media'
+MEDIA_ROOT = BASE_DIR.parent / "media"
 
 # email
 if enable_email:
@@ -205,7 +196,7 @@ if enable_email:
     EMAIL_USE_TLS = True
     DEFAULT_FROM_EMAIL = get_env("DEFAULT_FROM_EMAIL")
 else:
-    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+    EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
 
 DATABASES = {}
 
@@ -215,4 +206,18 @@ VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
         ("full_size", "url"),
         ("thumbnail", "thumbnail__500x500"),
     ]
+}
+
+MATERIAL_ADMIN_SITE = {
+    "HEADER": "Pal Store",
+    "TITLE":  "Pal Store",
+    "SHOW_THEMES":  True,
+    "TRAY_REVERSE": True,
+    "SHOW_COUNTS": True,
+    "APP_ICONS": {
+        "sites": "send",
+    },
+    "MODEL_ICONS": {
+        "site": "contact_mail",
+    }
 }

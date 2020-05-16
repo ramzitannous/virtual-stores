@@ -25,7 +25,7 @@ class AccountAdmin(UserAdmin):
                        "is_active", "image", "status", "type", "on_trial")}
         ),
     )
-    list_display = ("image", "email", "is_staff", "status", "type", "on_trial")
+    list_display = ("image", "email", "is_active", "status", "type", "on_trial")
     list_display_links = ("email", )
     search_fields = ("email",)
     ordering = ("email",)
