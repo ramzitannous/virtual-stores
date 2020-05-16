@@ -209,3 +209,4 @@ class TestStoreCreate(BaseTestCase):
         stores = Store.objects.filter(owner=self.account)
         for store in stores:
             assert store.is_active is False
+            assert store.deactivate_date is not None

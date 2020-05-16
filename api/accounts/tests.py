@@ -10,6 +10,7 @@ class TestAccounts(BaseTestCase):
         assert account.is_active is False
         assert account.status == AccountStatus.UN_VERIFIED
         assert account.on_trial is False
+        assert account.deactivate_date is not None
 
     def test_deactivate_account(self):
         self.account.deactivate()

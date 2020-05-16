@@ -24,6 +24,9 @@ python-dotenv = "^0.13.0"
 drf-nested-serializer = "^0.1.0"
 dj_database_url = "^0.5.0"
 whitenoise = "^5.0.1"
+django-versatileimagefield = "^2.0"
+celery_once = "^3.0.1"
+django-cors-headers = "^3.2.1"
 
 [tool.poetry.dev-dependencies]
 factory-boy = "^2.12.0"

@@ -29,10 +29,16 @@ class AccountAdmin(UserAdmin):
     list_display_links = ("email", )
     search_fields = ("email",)
     ordering = ("email",)
+    actions = ("force_delete", )
 
     def delete_queryset(self, request, queryset):
         for obj in queryset:
             obj.delete()
+
+    def force_delete(self, request, queryset):
+        queryset.delete()
+
+    force_delete.short_description = "Force Delete User"
 
 
 admin.site.register(Account, AccountAdmin)

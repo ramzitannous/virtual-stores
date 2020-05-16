@@ -57,7 +57,7 @@ INSTALLED_APPS = [
 
 MY_APPS = [
     "shared",
-    "accounts",
+    "accounts.apps.AccountsConfig",
     "stores"
 ]
 
@@ -66,7 +66,8 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     "drf_yasg",
     "django_filters",
-    "djoser"
+    "djoser",
+    "versatileimagefield"
 ]
 
 INSTALLED_APPS += MY_APPS + THIRD_PARTY_APPS
@@ -175,8 +176,8 @@ CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 CELERY_TASK_IGNORE_RESULT = False
 CELERY_TASK_ALWAYS_EAGER = False
 
-CELERY_BROKER_URL = f"redis://{get_env('REDIS_HOST')}:{get_env('REDIS_PORT')}"
-CELERY_RESULT_BACKEND = f"{CELERY_BROKER_URL}/0"
+CELERY_BROKER_URL = get_env("REDIS_URL")
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 # requests
 REQUEST_DEFAULT_TIMEOUT = 60
@@ -192,7 +193,7 @@ STATIC_ROOT = "static"
 
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = BASE_DIR.parent / 'media' / 'images'
+MEDIA_ROOT = BASE_DIR.parent / 'media'
 
 # email
 if enable_email:
@@ -207,3 +208,11 @@ else:
     EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 DATABASES = {}
+
+
+VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
+    "profile": [
+        ("full_size", "url"),
+        ("thumbnail", "thumbnail__500x500"),
+    ]
+}

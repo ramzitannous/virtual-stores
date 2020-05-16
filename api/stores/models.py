@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from shared.models import OwnerModel, BaseModel
@@ -19,13 +21,15 @@ class Store(OwnerModel):
     is_active = models.BooleanField(default=True)
     open_time = models.TimeField()
     close_time = models.TimeField()
+    deactivate_date = models.DateField(default=None, null=True)
 
     def delete(self, using=None, keep_parents=False):
-        self.is_active = False
-        self.save()
+        self.deactivate()
 
     def deactivate(self):
-        self.delete()
+        self.is_active = False
+        self.deactivate_date = datetime.today()
+        self.save()
 
 
 class StoreReview(OwnerModel):
