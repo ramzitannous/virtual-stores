@@ -51,4 +51,5 @@ poetry install --no-dev` 3. create .env file
 |`python manage.py waitdb` | wait for database to be ready |      
       
       
-**Deployment** 1. Heroku Deploy check .github folder
+**Deployment** 
+1. Heroku Deploy check .github folder
