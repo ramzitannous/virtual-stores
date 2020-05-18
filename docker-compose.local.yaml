@@ -19,8 +19,6 @@ services:
       - DJANGO_SETTINGS_MODULE=settings.local
     restart: unless-stopped
     command: poetry run python manage.py runworker
-    volumes:
-      - code:/code/db.sqlite
   
   beat:
     container_name: beat
@@ -33,8 +31,6 @@ services:
       - worker
     command: poetry run python manage.py runbeat
     restart: unless-stopped
-    volumes:
-      - code:/code/db.sqlite
 
   flower:
     container_name: flower
@@ -60,11 +56,19 @@ services:
       - PORT=8080
     command: sh scripts/run_server.sh
     restart: unless-stopped   
-    volumes:
-      - code:/code/db.sqlite
     ports:
     - 8080:8080
 
+  db:
+    image: postgres:12.2-alpine
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=stores
+
 volumes:
   redis_data:
-  code:
+  db_data:

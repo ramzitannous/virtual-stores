@@ -18,8 +18,8 @@ class Account(AbstractUser, BaseModel):
     image = VersatileImageField("Image", ppoi_field="image_ppoi", upload_to="profile",
                                 editable=True, null=True, blank=True)
     image_ppoi = PPOIField()
-    first_name = models.CharField(max_length=20, null=False, blank=False)
-    last_name = models.CharField(max_length=20, null=False, blank=False)
+    first_name = models.CharField(max_length=40, null=False, blank=False)
+    last_name = models.CharField(max_length=40, null=False, blank=False)
     type = models.CharField(default=AccountTypes.NORMAL, max_length=10, choices=[(t, t)for t in AccountTypes])
     status = models.CharField(default=AccountStatus.UN_VERIFIED, max_length=20, choices=[(s, s)for s in AccountStatus])
     on_trial = models.BooleanField(default=True)

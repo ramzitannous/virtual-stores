@@ -14,6 +14,8 @@ import os
 import pathlib
 from datetime import timedelta
 
+import dj_database_url
+
 from settings.log import *
 from shared.utils import get_env
 from settings.rest_framework import *
@@ -37,6 +39,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -47,12 +50,11 @@ INSTALLED_APPS = [
 MY_APPS = [
     "shared",
     "accounts.apps.AccountsConfig",
-    "stores"
+    "stores",
+    "products.apps.ProductsConfig"
 ]
 
 THIRD_PARTY_APPS = [
-    "material.admin",
-    "material.admin.default",
     "rest_framework",
     "django_celery_beat",
     "drf_yasg",
@@ -198,14 +200,21 @@ if enable_email:
 else:
     EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
 
-DATABASES = {}
+DATABASES = {
+    "default": dj_database_url.config(default=get_env("DATABASE_URL"), conn_max_age=600)
+}
 
 
 VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
     "profile": [
         ("full_size", "url"),
         ("thumbnail", "thumbnail__500x500"),
-    ]
+    ],
+    "product": [
+        ("product_large", "thumbnail__1080x1080"),
+        ("product_small", "thumbnail__120x120"),
+        ("product_meduim", "thumbnail__510x510"),
+    ],
 }
 
 MATERIAL_ADMIN_SITE = {

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from stores.models import Store, StoreReview, StoreAddress
-from accounts.models import Account
+from shared.serializers import ReviewSerializer
+from stores.models import Store, StoreAddress, StoreReview
 
 
 class StoreAddressSerializer(serializers.ModelSerializer):
@@ -37,17 +37,6 @@ class StoreSerializer(serializers.ModelSerializer):
             return super().update(instance, validated_data)
 
 
-class StoreReviewOwnerSerializer(serializers.ModelSerializer):
-    full_name = serializers.CharField(read_only=True)
-
-    class Meta:
-        model = Account
-        fields = ("id", "full_name", "image")
-
-
-class StoreReviewSerializer(serializers.ModelSerializer):
-    owner = StoreReviewOwnerSerializer(read_only=True)
-
-    class Meta:
+class StoreReviewSerializer(ReviewSerializer):
+    class Meta(ReviewSerializer.Meta):
         model = StoreReview
-        fields = ("id", "title", "rating", "create_date", "owner")

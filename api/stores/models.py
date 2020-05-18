@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from shared.models import OwnerModel, BaseModel
+from shared.models import OwnerModel, BaseModel, BaseReview
 from django.contrib import admin
 
 
@@ -32,10 +32,8 @@ class Store(OwnerModel):
         self.save()
 
 
-class StoreReview(OwnerModel):
-    title = models.CharField(max_length=400, null=False, blank=False)
-    rating = models.PositiveIntegerField(null=False, validators=[MinValueValidator(0), MaxValueValidator(5)])
-    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+class StoreReview(BaseReview):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="reviews")
 
 
 @admin.register(StoreAddress)

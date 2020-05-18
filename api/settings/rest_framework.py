@@ -6,7 +6,9 @@ REST_FRAMEWORK = {
     ],
 
     "TEST_REQUEST_PARSER_CLASSES": [
-        "djangorestframework_camel_case.parser.CamelCaseJSONRenderer",
+        "djangorestframework_camel_case.parser.CamelCaseFormParser",
+        "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
+        "djangorestframework_camel_case.parser.CamelCaseJSONParser",
     ],
 
     "DEFAULT_PAGINATION_CLASS": "shared.paging.CustomPagination",
