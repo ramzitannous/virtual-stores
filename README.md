@@ -10,7 +10,8 @@
  2. Install dependances      
       
     `poetry config virtualenvs.in-project true &&       
-poetry install --no-dev` 3. create .env file      
+poetry install` 
+3. create .env file      
       
       
       
