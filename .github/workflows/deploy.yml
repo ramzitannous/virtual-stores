@@ -47,6 +47,7 @@ jobs:
         env:
           DATABASE_URL: "postgres://test:test123@localhost:5432/stores"
           ENABLE_EMAIL: 0
+          REDIS_URL: "redis://localhost:6379/0"
         run: bash scripts/run_tests.sh
     
       - name: Login to Heroku Container registry
