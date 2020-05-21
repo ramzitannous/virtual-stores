@@ -8,7 +8,8 @@ on:
       - "README.*"
 
 jobs:
-  test:
+
+  build:
     runs-on: ubuntu-latest
 
     services:
@@ -18,7 +19,7 @@ jobs:
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test123
           POSTGRES_DB: stores
-          
+
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -26,25 +27,27 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-    steps:
-      - uses: actions/checkout@v1
-      
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8.2'
-      
-      - name: Run Tests
-        env:
-          DATABASE_URL: "postgres://test:test123@localhost:5432/stores"
-          ENABLE_EMAIL: 0
-        run: bash scripts/run_tests.sh
-        
-  build:
-    runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v1
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8.2'
+
+        - name: Run Tests
+          env:
+            DATABASE_URL: "postgres://test:test123@localhost:5432/stores"
+            ENABLE_EMAIL: 0
+          run: bash scripts/run_tests.sh
     
       - name: Login to Heroku Container registry
         env: 
