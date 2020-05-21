@@ -25,8 +25,6 @@ COPY ./scripts ./scripts
 
 RUN poetry run python manage.py collectstatic --noinput --settings=settings.build
 
-RUN poetry run pyhton manage.py test --settings=settings.test --no-input
-
 RUN chmod +x scripts/run_server.sh
 
 CMD sh scripts/run_server.sh
