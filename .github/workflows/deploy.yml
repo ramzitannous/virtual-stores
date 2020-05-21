@@ -39,15 +39,15 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8.2'
-
-        - name: Run Tests
-          env:
-            DATABASE_URL: "postgres://test:test123@localhost:5432/stores"
-            ENABLE_EMAIL: 0
-          run: bash scripts/run_tests.sh
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8.2'
+  
+      - name: Run Tests
+        env:
+          DATABASE_URL: "postgres://test:test123@localhost:5432/stores"
+          ENABLE_EMAIL: 0
+        run: bash scripts/run_tests.sh
     
       - name: Login to Heroku Container registry
         env: 
