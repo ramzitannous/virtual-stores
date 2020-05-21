@@ -37,6 +37,7 @@ jobs:
       - name: Run Tests
         env:
           DATABASE_URL: "postgres://test:test123@localhost:5432/stores"
+          ENABLE_EMAIL: 0
         run: bash scripts/run_tests.sh
         
   build:
