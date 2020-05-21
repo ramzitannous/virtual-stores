@@ -1,6 +1,8 @@
 from datetime import datetime
 
-from django.core.validators import MinValueValidator, MaxValueValidator
+from versatileimagefield.fields import PPOIField
+
+from shared.fields import Base64ThumbnailField
 from django.db import models
 from shared.models import OwnerModel, BaseModel, BaseReview
 from django.contrib import admin
@@ -15,7 +17,8 @@ class StoreAddress(BaseModel):
 class Store(OwnerModel):
     name = models.CharField(max_length=100, null=False, blank=False, unique=True)
     description = models.TextField(max_length=500, null=False, blank=False)
-    image = models.ImageField(null=True, editable=True, blank=False)
+    image = Base64ThumbnailField(null=True, editable=True, blank=False)
+    image_ppoi = PPOIField()
     phone = models.CharField(null=False, blank=False, max_length=20)
     address = models.ForeignKey(StoreAddress, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
@@ -30,6 +33,17 @@ class Store(OwnerModel):
         self.is_active = False
         self.deactivate_date = datetime.today()
         self.save()
+        for product in self.products.filter(is_active=True):
+            product.is_active = False
+            product.save()
+
+    def reactivate(self):
+        self.is_active = True
+        self.deactivate_date = None
+        self.save()
+        for product in self.products.filter(is_active=False):
+            product.is_active = True
+            product.save()
 
 
 class StoreReview(BaseReview):

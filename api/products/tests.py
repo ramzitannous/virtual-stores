@@ -1,7 +1,6 @@
 import os
 
 from django.test.client import encode_multipart
-
 from products.models import Product, ProductReview, ProductImage
 from shared.tests import BaseTestCase
 from shared.factories import StoreFactory, CategoryFactory, ProductFactory
@@ -85,18 +84,14 @@ class Tests(BaseTestCase):
         product.delete()
 
     def test_upload_images(self):
-        product = ProductFactory()
-        img_dir = os.path.join(settings.BASE_DIR, "static", "images")
+        product = ProductFactory(owner=self.account)
         images = []
-        boundary = "images"
         image_names = ["placeholder60x60.png", "placeholder120x120.png"]
-        for i, img in enumerate(image_names):
-            f = open(os.path.join(img_dir, img), "rb")
-            images.append(f)
-        data = {"images": images}
-        encoded_images = encode_multipart(boundary, data)
+        for img in image_names:
+            images.append(self.get_image(img))
+
         url = self.resolve_url("products-upload-images", pk=str(product.id))
-        res = self.client.post(url, encoded_images, content_type=f'multipart/form-data; boundary={boundary}')
+        res = self.client.post(url, {"images": images})
         assert res.status_code == 200
         product_image = ProductImage.objects.filter(product=product)
         assert product_image.count() == 2
@@ -107,6 +102,8 @@ class Tests(BaseTestCase):
         res = self.client.delete(url)
         assert res.status_code == 204
         assert ProductImage.objects.filter(product=product).count() == 1
+        for img in ProductImage.objects.filter(product=product):
+            img.image.delete()
 
     def test_create_discount(self):
         product = ProductFactory(price=10)

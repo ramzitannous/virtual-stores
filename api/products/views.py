@@ -1,7 +1,6 @@
 from django.db.models import Count, Avg
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
-from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, DestroyModelMixin
@@ -30,6 +29,7 @@ class ProductViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action in ["list", "retrieve"]:
             return ProductGetSerializer
+
         elif self.action == "upload_images":
             return ProductCreateImageSerializer
         else:
@@ -41,11 +41,11 @@ class ProductViewSet(ModelViewSet):
     def upload_images(self, *args, **kwargs):
         product = get_object_or_404(Product, id=kwargs["pk"])
         self.check_object_permissions(self.request, product)
-        img_serializer = self.serializer_class(data={"images": list(self.request.FILES.getlist("images"))})
+        img_serializer = self.serializer_class(data=self.request.data)
         img_serializer.is_valid(raise_exception=True)
-        for image in img_serializer.validated_data["images"]:
-            product_image = ProductImage.objects.create(product=product, image=image)
-            product_image.save()
+        product_images = map(lambda img: ProductImage(product=product, image=img),
+                             img_serializer.validated_data["images"])
+        ProductImage.objects.bulk_create(product_images)
         return Response(status=200)
 
     @action(methods=["delete"], detail=True, url_path="image/(?P<image_id>[^/]+)")

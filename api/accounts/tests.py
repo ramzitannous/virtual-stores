@@ -21,3 +21,13 @@ class TestAccounts(BaseTestCase):
         res = self.client.delete(url, {"current_password": "Test User"})
         assert res.status_code == 204
         self.assert_account_deactivated()
+
+    def test_edit_account(self):
+        url = self.resolve_url("accounts-me")
+        res = self.client.patch(url, {"image": self.get_image()})
+        assert res.status_code == 200
+        account = self.client.get(url)
+        assert len(account.json()["image"]) == 2
+        self.account.refresh_from_db()
+        self.account.image.delete()
+

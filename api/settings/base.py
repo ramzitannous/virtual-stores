@@ -215,18 +215,14 @@ VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
         ("product_small", "thumbnail__120x120"),
         ("product_meduim", "thumbnail__510x510"),
     ],
+    "category": [
+        ("thumbnail", "thumbnail__250x250"),
+    ],
+    "store": [
+        ("thumbnail", "thumbnail__960x960"),
+    ]
 }
 
-MATERIAL_ADMIN_SITE = {
-    "HEADER": "Pal Store",
-    "TITLE":  "Pal Store",
-    "SHOW_THEMES":  True,
-    "TRAY_REVERSE": True,
-    "SHOW_COUNTS": True,
-    "APP_ICONS": {
-        "sites": "send",
-    },
-    "MODEL_ICONS": {
-        "site": "contact_mail",
-    }
+VERSATILEIMAGEFIELD_SETTINGS = {
+    "create_images_on_demand": False
 }

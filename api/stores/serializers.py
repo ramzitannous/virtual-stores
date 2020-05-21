@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from shared.serializers import ReviewSerializer
+from shared.serializers import ReviewSerializer, Base64ThumbnailSerializer
 from stores.models import Store, StoreAddress, StoreReview
 
 
@@ -17,6 +17,7 @@ class StoreSerializer(serializers.ModelSerializer):
     reviews_count = serializers.IntegerField(read_only=True)
     reviews_avg = serializers.DecimalField(read_only=True, max_digits=4, decimal_places=2)
     address = StoreAddressSerializer(required=True)
+    image = Base64ThumbnailSerializer(sizes="store", required=False)
 
     class Meta:
         model = Store

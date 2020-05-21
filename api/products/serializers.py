@@ -3,10 +3,10 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from versatileimagefield.serializers import VersatileImageFieldSerializer
-
+from stores.serializers import StoreSerializer
 from products.enum import ProductSize
 from products.models import Category, Product, ProductReview
-from shared.serializers import ReviewSerializer
+from shared.serializers import ReviewSerializer, Base64ThumbnailSerializer
 from stores.models import Store
 
 
@@ -22,7 +22,14 @@ class ProductGetImageSerializer(serializers.Serializer):
 
 
 class ProductCreateImageSerializer(serializers.Serializer):
-    images = serializers.ListSerializer(child=VersatileImageFieldSerializer(sizes="product", required=True))
+    images = serializers.ListSerializer(child=Base64ThumbnailSerializer(sizes="product", required=True))
+
+
+class StoreSummary(StoreSerializer):
+    address = None
+
+    class Meta(StoreSerializer.Meta):
+        fields = ("name", "id")
 
 
 class ProductGetSerializer(serializers.ModelSerializer):
@@ -40,6 +47,8 @@ class ProductGetSerializer(serializers.ModelSerializer):
     reviews_count = serializers.IntegerField(read_only=True)
     reviews_avg = serializers.DecimalField(read_only=True, max_digits=4, decimal_places=2)
 
+    store = StoreSummary(read_only=True)
+
     class Meta:
         model = Product
         exclude = ("owner",)
@@ -47,6 +56,7 @@ class ProductGetSerializer(serializers.ModelSerializer):
 
 class ProductCreateSerializer(ProductGetSerializer):
     category = None
+    store = None
 
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
     store_id = serializers.UUIDField(required=True, write_only=True, allow_null=False)

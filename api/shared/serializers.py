@@ -1,5 +1,6 @@
 from rest_framework import serializers
-
+from versatileimagefield.serializers import VersatileImageFieldSerializer
+from drf_base64.fields import Base64FieldMixin
 from accounts.models import Account
 from shared.models import BaseReview
 
@@ -18,3 +19,8 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = BaseReview
         fields = ("id", "title", "rating", "create_date", "owner")
+
+
+class Base64ThumbnailSerializer(Base64FieldMixin, VersatileImageFieldSerializer):
+    def to_internal_value(self, data):
+        return super().to_internal_value(data)

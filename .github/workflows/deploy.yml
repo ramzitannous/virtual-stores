@@ -6,8 +6,27 @@ on:
       - master
     paths-ignore: 
       - "README.*"
-      - ".deepsource.toml"
+
 jobs:
+  runner-job:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12.2-alpine
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test123
+          POSTGRES_DB: stores
+          
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
   build:
     runs-on: ubuntu-latest
     
@@ -19,6 +38,11 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login 
         
+      - name: Run Tests
+        env: 
+          DATABASE_URL: "postgres://test:test123@localhost:5432/stores"
+        run: bash scripts/run_tests.sh
+
       - name: Publish image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:

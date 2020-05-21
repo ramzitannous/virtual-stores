@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from djoser.serializers import UserCreatePasswordRetypeSerializer
-from versatileimagefield.serializers import VersatileImageFieldSerializer
-
+from shared.serializers import Base64ThumbnailSerializer
 from accounts.enums import AccountStatus, AccountTypes
 from accounts.models import Account
 
@@ -11,7 +10,7 @@ class AccountGetSerializer(serializers.ModelSerializer):
     status = serializers.ChoiceField(read_only=True, choices=[(s, s) for s in AccountStatus])
     type = serializers.ChoiceField(read_only=True, choices=[(s, s) for s in AccountTypes])
     email = serializers.EmailField(read_only=True)
-    image = VersatileImageFieldSerializer(sizes="profile")
+    image = Base64ThumbnailSerializer(sizes="profile")
 
     class Meta:
         model = Account

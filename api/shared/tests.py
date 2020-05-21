@@ -1,3 +1,7 @@
+import base64
+import os
+
+from django.conf import settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from shared.factories import BusinessAccountFactory, NormalAccountFactory
@@ -21,3 +25,9 @@ class BaseTestCase(APITestCase):
     def tearDown(self) -> None:
         self.account.delete()
         self.normal_account.delete()
+
+    def get_image(self, img_name='placeholder60x60.png') -> str:
+        img_path = os.path.join(settings.STATIC_ROOT, 'images', img_name)
+        with open(img_path, "rb") as img:
+            base64img = base64.b64encode(img.read()).decode("utf-8")
+        return f"data:image/png;base64,{base64img}"

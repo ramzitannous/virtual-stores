@@ -1,8 +1,9 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from shared.fields import Base64ThumbnailField
 from accounts.models import Account
 from products.enum import ProductSize
-from shared.models import BaseModel, BaseReview
+from shared.models import BaseModel, BaseReview, OwnerModel
 from versatileimagefield.fields import VersatileImageField, PPOIField
 from django.contrib.postgres.fields import ArrayField, JSONField
 import math
@@ -20,7 +21,7 @@ class Category(BaseModel):
         verbose_name_plural = "Categories"
 
 
-class Product(BaseModel):
+class Product(OwnerModel):
     name = models.CharField(max_length=200, null=False, blank=False)
     description = models.CharField(max_length=300, null=True, blank=True)
 
@@ -66,7 +67,7 @@ class ProductReview(BaseReview):
 
 
 class ProductImage(BaseModel):
-    image = VersatileImageField("Image", ppoi_field="image_ppoi", upload_to="product",
+    image = Base64ThumbnailField("Image", ppoi_field="image_ppoi", upload_to="product",
                                          editable=True, null=True, blank=True)
     image_ppoi = PPOIField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")

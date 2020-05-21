@@ -6,8 +6,6 @@ REST_FRAMEWORK = {
     ],
 
     "TEST_REQUEST_PARSER_CLASSES": [
-        "djangorestframework_camel_case.parser.CamelCaseFormParser",
-        "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
         "djangorestframework_camel_case.parser.CamelCaseJSONParser",
     ],
 
@@ -20,8 +18,6 @@ REST_FRAMEWORK = {
 
     "DEFAULT_PARSER_CLASSES": (
         "djangorestframework_camel_case.parser.CamelCaseJSONParser",
-        "rest_framework.parsers.MultiPartParser",
-        "rest_framework.parsers.FileUploadParser"
     ),
 
     "EXCEPTION_HANDLER": "shared.exceptions.response_exception_handler",

@@ -1,9 +1,9 @@
 from django.dispatch import receiver
 from django.db.models import signals
-from .tasks import create_account_profile
 from accounts.models import Account
+from accounts.tasks import create_profile_thumbnail
 
 
 @receiver(signals.post_save, sender=Account)
-def create_profile_image(sender, instance: Account, created, **kwargs):
-    create_account_profile.delay(str(instance.id))
+def receive_account_created(sender, instance: Account, created, **kwargs):
+    create_profile_thumbnail.delay(str(instance.id))

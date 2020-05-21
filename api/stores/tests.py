@@ -22,10 +22,14 @@ class TestStoreCreate(BaseTestCase):
         self.url = self.resolve_url("stores-list")
 
     def test_create_store_authenticated(self):
+        self.payload["image"] = self.get_image()
         response = self.client.post(self.url, self.payload)
         assert response.data is not None
         assert response.status_code == 201
-        Store.objects.get(id=response.data["id"]).delete()
+        store = Store.objects.get(id=response.data["id"])
+        store.image.delete()
+        store.delete()
+        del self.payload["image"]
 
     def test_create_store_not_authenticated(self):
         self.client.logout()
