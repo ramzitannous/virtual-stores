@@ -20,6 +20,7 @@ class AccountGetSerializer(serializers.ModelSerializer):
 
 class AccountCreateSerializer(UserCreatePasswordRetypeSerializer):
     re_password = serializers.CharField(allow_blank=False, allow_null=False)
+    image = Base64ThumbnailSerializer(sizes="profile")
 
     class Meta(UserCreatePasswordRetypeSerializer.Meta):
         fields = UserCreatePasswordRetypeSerializer.Meta.fields +\
