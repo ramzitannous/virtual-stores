@@ -17,8 +17,8 @@ def ping(request):
 @authentication_classes([])
 @permission_classes([])
 def info(request):
-    branch = os.environ.get("GIT_BRANCH", "local")
-    sha_commit = os.environ.get("SHA_COMMIT", "null")
+    branch = os.environ.get("GIT_BRANCH", "ref/head/local")[11:]
+    sha_commit = os.environ.get("SHA_COMMIT", "null commit")[:7]
     release_info = {
         "version": f"{branch}-{sha_commit}",
         "branch": branch,

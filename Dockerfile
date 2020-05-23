@@ -27,10 +27,10 @@ RUN poetry run python manage.py collectstatic --noinput --settings=settings.buil
 
 RUN chmod +x scripts/run_server.sh
 
-ARG SHA_COMMIT
-ENV SHA_COMMIT $SHA_COMMIT
+ARG GITHUB_SHA
+ENV SHA_COMMIT $GITHUB_SHA
 
-ARG GIT_BRANCH
-ENV GIT_BRANCH $GIT_BRANCH
+ARG GITHUB_REF
+ENV GIT_BRANCH $GITHUB_REF
 
 CMD sh scripts/run_server.sh
