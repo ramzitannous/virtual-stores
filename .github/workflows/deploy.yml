@@ -58,8 +58,8 @@ jobs:
       - name: Publish image
         uses: elgohr/Publish-Docker-Github-Action@master
         env: 
-          SHA_COMMIT: ${GITHUB_SHA::8}
-          GIT_BRANCH: ${GITHUB_REF##*/}
+          SHA_COMMIT: "${GITHUB_SHA::8}"
+          GIT_BRANCH: "${GITHUB_REF##*/}"
         with:
           name: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
           username: _
