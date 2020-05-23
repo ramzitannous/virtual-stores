@@ -20,7 +20,7 @@ from django.conf import settings
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework.authentication import SessionAuthentication
-from shared import views as ping_view
+from shared import views as shared_view
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -35,7 +35,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     re_path(r'^admin/?', admin.site.urls),
-    re_path(r'^ping/?', ping_view.ping, name='ping_view'),
+    re_path(r'^ping/?', shared_view.ping, name='ping'),
+    re_path(r'^info/?', shared_view.info, name='info'),
     re_path(r'^auth/', include('rest_framework.urls')),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc-ui'),

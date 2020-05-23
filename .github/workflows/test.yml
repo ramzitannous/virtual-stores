@@ -1,11 +1,10 @@
-name: Build and Deploy Backend
+name: Run Tests
 
 on:
   push:
-    branches:
-      - master
-    paths-ignore: 
-      - "README.*"
+    branches:    
+      - '*'         # matches every branch
+      - '!master'   # excludes master
 
 jobs:
 
@@ -49,27 +48,4 @@ jobs:
           ENABLE_EMAIL: 0
           REDIS_URL: "redis://localhost:6379/0"
         run: bash scripts/run_tests.sh
-    
-      - name: Login to Heroku Container registry
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login 
-
-      - name: Publish image
-        uses: elgohr/Publish-Docker-Github-Action@master
-        env: 
-          SHA_COMMIT: ${GITHUB_SHA::8}
-          GIT_BRANCH: ${GITHUB_REF##*/}
-        with:
-          name: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-          username: _
-          password: "${{ secrets.HEROKU_API_KEY }}"
-          registry: registry.heroku.com
-          cache: true
-          buildargs: SHA_COMMIT,GIT_BRANCH
-
-      - name: Release
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
  

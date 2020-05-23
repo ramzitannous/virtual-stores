@@ -1,4 +1,6 @@
+import os
 from django.db.models import QuerySet
+from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
@@ -9,6 +11,20 @@ from rest_framework.generics import GenericAPIView
 @permission_classes([])
 def ping(request):
     return Response("pong")
+
+
+@api_view(["GET"])
+@authentication_classes([])
+@permission_classes([])
+def info(request):
+    branch = os.environ.get("GIT_BRANCH", "local")
+    sha_commit = os.environ.get("SHA_COMMIT", "null")
+    release_info = {
+        "version": f"{branch}-{sha_commit}",
+        "branch": branch,
+        "sha_commit": sha_commit
+    }
+    return JsonResponse(release_info, status=200)
 
 
 class OwnerViewMixin(GenericAPIView):

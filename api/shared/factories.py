@@ -15,6 +15,7 @@ class OwnerFactory(DjangoModelFactory):
     email = factory.Faker("email")
     type = AccountTypes.BUSINESS
     status = AccountStatus.VERIFIED
+    phone = factory.Faker("phone_number")
 
 
 class BusinessAccountFactory(DjangoModelFactory):
@@ -26,6 +27,7 @@ class BusinessAccountFactory(DjangoModelFactory):
     email = factory.Faker("email")
     type = AccountTypes.BUSINESS
     status = AccountStatus.VERIFIED
+    phone = factory.Faker("phone_number")
     on_trial = False
 
 
@@ -39,6 +41,7 @@ class NormalAccountFactory(DjangoModelFactory):
     type = AccountTypes.NORMAL
     status = AccountStatus.VERIFIED
     on_trial = False
+    phone = factory.Faker("phone_number")
 
 
 class TrialAccountFactory(DjangoModelFactory):
@@ -51,6 +54,7 @@ class TrialAccountFactory(DjangoModelFactory):
     type = AccountTypes.BUSINESS
     status = AccountStatus.VERIFIED
     on_trial = True
+    phone = factory.Faker("phone_number")
 
 
 class AddressFactory(DjangoModelFactory):
