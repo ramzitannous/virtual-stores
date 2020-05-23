@@ -93,9 +93,6 @@ djoser==2.0.3 \
     --hash=sha256:36e06fdfc429a3aa8647289ee0e50806114d89f781de9245a68c6a44575d1bdd
 drf-base64==2.0 \
     --hash=sha256:dee42f27e6ea5fb91ff85916ad1aaba222275552815430ff6a55a547e0246234
-drf-nested-serializer==0.1.0 \
-    --hash=sha256:194bf2c7d2bdcf74756a0c1b909e319da3b1f847aa840ab25e8ed6bca744f2ca \
-    --hash=sha256:02a87485ac5a5b208778acb7b9251b4fd6b811ab40d9e1ac2163975d3a510cf0
 drf-yasg==1.17.1 \
     --hash=sha256:5572e9d5baab9f6b49318169df9789f7399d0e3c7bdac8fdb8dfccf1d5d2b1ca \
     --hash=sha256:7d7af27ad16e18507e9392b2afd6b218fbffc432ec8dbea053099a2241e184ff

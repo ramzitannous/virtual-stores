@@ -111,6 +111,15 @@ class Tests(BaseTestCase):
         assert product.discount_price == 8
         assert product.on_discount
 
+    def test_update_product_category(self):
+        product = ProductFactory(owner=self.account)
+        cat = CategoryFactory()
+        url = self.resolve_url("products-detail", pk=product.id)
+        res = self.client.patch(url, {"category_id": cat.id})
+        assert res.status_code == 200
+        product.refresh_from_db()
+        assert product.category == cat
+
     def tearDown(self) -> None:
         self.child1.delete()
         self.child2.delete()

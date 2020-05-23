@@ -103,6 +103,20 @@ class TestStoreCreate(BaseTestCase):
         store = Store.objects.get(id=response.json()["id"])
         assert store.address.extra == extra
 
+    def test_edit_store(self):
+        response = self.client.post(self.url, self.payload)
+        extra = "test extra"
+        name = "hello"
+        res = self.client.patch(self.resolve_url("stores-detail", pk=response.data["id"]),
+                                {"address": {"extra": extra}, "name": name})
+        assert res.status_code == 200
+        data = res.json()
+        assert data["address"]["extra"] == extra
+        assert data["name"] == name
+        store = Store.objects.get(id=data["id"])
+        assert store.address.extra == extra
+        assert store.name == name
+
     def test_prevent_delete_by_other_account(self):
         res = self.client.post(self.url, self.payload)
         self.client.logout()
@@ -209,6 +223,7 @@ class TestStoreCreate(BaseTestCase):
         self.client.post(self.url, self.payload)
         self.payload["name"] = "test"
         self.client.post(self.url, self.payload)
+        self.account.deactivate()
         self.account.deactivate()
         stores = Store.objects.filter(owner=self.account)
         for store in stores:

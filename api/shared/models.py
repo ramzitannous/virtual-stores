@@ -27,3 +27,12 @@ class BaseReview(OwnerModel):
 
     class Meta:
         abstract = True
+
+
+class BaseAddress(BaseModel):
+    city = models.CharField(max_length=100, null=False, blank=False)
+    street = models.CharField(max_length=100, null=False, blank=False)
+    extra = models.CharField(max_length=200, null=True, blank=True)
+
+    class Meta:
+        abstract = True

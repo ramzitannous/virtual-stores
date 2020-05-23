@@ -4,14 +4,12 @@ from versatileimagefield.fields import PPOIField
 
 from shared.fields import Base64ThumbnailField
 from django.db import models
-from shared.models import OwnerModel, BaseModel, BaseReview
+from shared.models import OwnerModel, BaseModel, BaseReview, BaseAddress
 from django.contrib import admin
 
 
-class StoreAddress(BaseModel):
-    city = models.CharField(max_length=100, null=False, blank=False)
-    street = models.CharField(max_length=100, null=False, blank=False)
-    extra = models.CharField(max_length=200, null=True, blank=True)
+class StoreAddress(BaseAddress):
+    pass
 
 
 class Store(OwnerModel):

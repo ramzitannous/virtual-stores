@@ -297,14 +297,6 @@ djangorestframework = "<4.0.0"
 
 [[package]]
 category = "main"
-description = "nested serializer for django-rest-framework"
-name = "drf-nested-serializer"
-optional = false
-python-versions = "*"
-version = "0.1.0"
-
-[[package]]
-category = "main"
 description = "Automated generation of real Swagger/OpenAPI 2.0 schemas from Django Rest Framework code."
 name = "drf-yasg"
 optional = false
@@ -723,7 +715,7 @@ version = "5.0.1"
 brotli = ["brotli"]
 
 [metadata]
-content-hash = "770e188e4b31884721009b8d21602362d7ca7637dadcdb3ec2bb425443ba7c70"
+content-hash = "27d9bc5a0223599c52afeaabfad299342d245131e8503ba9c95634091e199b2f"
 python-versions = "^3.8, <3.9"
 
 [metadata.files]
@@ -844,10 +836,6 @@ djoser = [
 ]
 drf-base64 = [
     {file = "drf_base64-2.0.tar.gz", hash = "sha256:dee42f27e6ea5fb91ff85916ad1aaba222275552815430ff6a55a547e0246234"},
-]
-drf-nested-serializer = [
-    {file = "drf-nested-serializer-0.1.0.tar.gz", hash = "sha256:194bf2c7d2bdcf74756a0c1b909e319da3b1f847aa840ab25e8ed6bca744f2ca"},
-    {file = "drf_nested_serializer-0.1.0-py3-none-any.whl", hash = "sha256:02a87485ac5a5b208778acb7b9251b4fd6b811ab40d9e1ac2163975d3a510cf0"},
 ]
 drf-yasg = [
     {file = "drf-yasg-1.17.1.tar.gz", hash = "sha256:5572e9d5baab9f6b49318169df9789f7399d0e3c7bdac8fdb8dfccf1d5d2b1ca"},

@@ -27,8 +27,10 @@ class ProductCreateImageSerializer(serializers.Serializer):
 
 class StoreSummary(StoreSerializer):
     address = None
+    ppoi_field = None
 
-    class Meta(StoreSerializer.Meta):
+    class Meta:
+        model = Store
         fields = ("name", "id")
 
 
@@ -77,6 +79,10 @@ class ProductCreateSerializer(ProductGetSerializer):
     def update(self, instance, validated_data):
         if "store_id" in validated_data:  # prevent changing store
             raise ValidationError("can't change store")
+        if "category_id" in validated_data:
+            category_id = validated_data.pop("category_id")
+            category = get_object_or_404(Category, id=category_id)
+            instance.category = category
         return super().update(instance, validated_data)
 
 

@@ -22,3 +22,14 @@ class AccountStatus(str, Enum):
 
     def __repr__(self):
         return self.name
+
+
+class Gender(str, Enum):
+    M = "M"
+    F = "F"
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.name
