@@ -11,11 +11,11 @@ class AccountAdmin(UserAdmin):
     form = AccountChangeForm
     model = Account
     fieldsets = (
-        (_("Personal info"), {"fields": ("first_name", "last_name", "email", "image")}),
-        (_("Permissions"), {
+        ("Personal info", {"fields": ("first_name", "last_name", "email", "image")}),
+        ("Permissions", {
             "fields": ("is_active", "is_staff", "is_superuser"),
         }),
-        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+        ("Important dates", {"fields": ("last_login", "date_joined")}),
         ("Account Status", {"fields": ("type", "status", "on_trial")}),
     )
     add_fieldsets = (

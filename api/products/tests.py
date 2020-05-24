@@ -1,10 +1,6 @@
-import os
-
-from django.test.client import encode_multipart
 from products.models import Product, ProductReview, ProductImage
 from shared.tests import BaseTestCase
 from shared.factories import StoreFactory, CategoryFactory, ProductFactory
-from django.conf import settings
 
 
 class Tests(BaseTestCase):

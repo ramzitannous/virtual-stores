@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import pathlib
 from datetime import timedelta
-
+from django.utils.translation import gettext_lazy as _
 import dj_database_url
 
 from settings.log import *
@@ -73,7 +73,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "shared.middlewares.HeaderMiddleware"
+    "shared.middlewares.HeaderMiddleware",
+    "django.middleware.locale.LocaleMiddleware"
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -109,6 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
+
+LOCALE_PATHS = (BASE_DIR / 'locale',)
+
+LANGUAGES = [
+    ("ar", _("Arabic")),
+    ("en", _("English")),
+]
 
 TIME_ZONE = "UTC"
 
