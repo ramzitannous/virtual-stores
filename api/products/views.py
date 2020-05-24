@@ -39,8 +39,7 @@ class ProductViewSet(ModelViewSet):
             serializer_class=ProductCreateImageSerializer
             )
     def upload_images(self, *args, **kwargs):
-        product = get_object_or_404(Product, id=kwargs["pk"])
-        self.check_object_permissions(self.request, product)
+        product = self.get_object()
         img_serializer = self.serializer_class(data=self.request.data)
         img_serializer.is_valid(raise_exception=True)
         product_images = map(lambda img: ProductImage(product=product, image=img),
@@ -50,8 +49,7 @@ class ProductViewSet(ModelViewSet):
 
     @action(methods=["delete"], detail=True, url_path="image/(?P<image_id>[^/]+)")
     def image(self, *args, **kwargs):
-        product = get_object_or_404(Product, id=kwargs["pk"])
-        self.check_object_permissions(self.request, product)
+        self.get_object()
         product_image = get_object_or_404(ProductImage, id=kwargs["image_id"])
         product_image.image.delete()
         product_image.delete()

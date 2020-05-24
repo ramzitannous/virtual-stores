@@ -8,6 +8,7 @@ from products.enum import ProductSize
 from products.models import Category, Product, ProductReview
 from shared.serializers import ReviewSerializer, Base64ThumbnailSerializer
 from stores.models import Store
+from django.utils.translation import gettext_lazy as _
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -78,7 +79,7 @@ class ProductCreateSerializer(ProductGetSerializer):
 
     def update(self, instance, validated_data):
         if "store_id" in validated_data:  # prevent changing store
-            raise ValidationError("can't change store")
+            raise ValidationError(_("can't change store"))
         if "category_id" in validated_data:
             category_id = validated_data.pop("category_id")
             category = get_object_or_404(Category, id=category_id)
