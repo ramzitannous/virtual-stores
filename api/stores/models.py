@@ -15,7 +15,7 @@ class StoreAddress(BaseAddress):
 class Store(OwnerModel):
     name = models.CharField(max_length=100, null=False, blank=False, unique=True)
     description = models.TextField(max_length=500, null=False, blank=False)
-    image = Base64ThumbnailField(null=True, editable=True, blank=False)
+    image = Base64ThumbnailField(null=True, editable=True, blank=False, upload_to="store")
     image_ppoi = PPOIField()
     phone = models.CharField(null=False, blank=False, max_length=20)
     address = models.ForeignKey(StoreAddress, on_delete=models.CASCADE)

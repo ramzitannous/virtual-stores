@@ -34,7 +34,7 @@ SECRET_KEY = "xv+-#_8yxr^jb4$wqvl)&ugy#=i0f%pnj6%a)(s!fc9)w7-z6s"
 # SECURITY WARNING: don"t run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [get_env("DOMAIN_NAME")]
 
 # Application definition
 

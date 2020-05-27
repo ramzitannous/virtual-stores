@@ -6,4 +6,7 @@ from accounts.tasks import create_profile_thumbnail
 
 @receiver(signals.post_save, sender=Account)
 def receive_account_created(sender, instance: Account, created, **kwargs):
-    create_profile_thumbnail.delay(str(instance.id))
+    if created:
+        create_profile_thumbnail.delay(str(instance.id))
+    elif "image" in kwargs.get("updated_fields"):
+        create_profile_thumbnail.delay(str(instance.id))
