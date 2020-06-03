@@ -1,8 +1,21 @@
 from rest_framework import serializers
 from djoser.serializers import UserCreatePasswordRetypeSerializer
+from social_django.utils import load_strategy, load_backend
+
 from shared.serializers import Base64ThumbnailSerializer
-from accounts.enums import AccountStatus, AccountTypes
+from accounts.enums import AccountStatus, AccountTypes, SocialProviders
 from accounts.models import Account, AccountAddress
+
+try:
+    from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+except ImportError:
+    raise ImportError("must install rest_framework_simplejwt first")
+
+AUTH_NAME_MAPPING = {
+    SocialProviders.Google: "google-oauth2",
+    SocialProviders.Facebook: "facebook",
+    SocialProviders.Instagram: "instagram"
+}
 
 
 class AccountAddressSerializer(serializers.ModelSerializer):
@@ -62,3 +75,25 @@ class AccountCreateSerializer(UserCreatePasswordRetypeSerializer):
             account = Account.objects.create(**validated_data, address=address)
             return account
         return Account.objects.create(**validated_data)
+
+
+class SocialInputSerializer(serializers.Serializer):
+    access_token = serializers.CharField(max_length=500, required=True, allow_blank=False, allow_null=False)
+    provider = serializers.ChoiceField(choices=[(p, p)for p in SocialProviders], allow_null=False,
+                                       allow_blank=False, required=True)
+    client_id = serializers.CharField(max_length=300, allow_null=False, allow_blank=False, required=True)
+
+    def do_login(self):
+        request = self.context["request"]
+        strategy = load_strategy(request)
+        backend = load_backend(strategy, AUTH_NAME_MAPPING[self.validated_data["provider"]], '/')
+        user = backend.do_auth(self.validated_data['access_token'])
+        return user
+
+class JWTResponseSerializer(serializers.Serializer):
+    access = serializers.CharField(max_length=500)
+    refresh = serializers.CharField(max_length=500)
+
+    @classmethod
+    def get_token(cls, user):
+        return TokenObtainPairSerializer.get_token(user)

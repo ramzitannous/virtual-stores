@@ -4,15 +4,15 @@ from requests.adapters import HTTPAdapter
 from requests.sessions import Session
 
 
-class StoreSession(Session):
+class RequestSession(Session):
     def request(self, method, url, **kwargs):
         kwargs["timeout"] = kwargs.get(
             "timeout") or settings.REQUEST_DEFAULT_TIMEOUT
         return super().request(method, url, **kwargs)
 
 
-def get_requests_session() -> StoreSession:
-    session = StoreSession()
+def get_requests_session() -> RequestSession:
+    session = RequestSession()
 
     retries = settings.REQUEST_DEFAULT_RETRIES
     backoff = settings.REQUEST_DEFAULT_BACKOFF

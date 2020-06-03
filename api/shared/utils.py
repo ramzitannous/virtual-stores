@@ -5,13 +5,15 @@ from django.core.exceptions import ImproperlyConfigured
 logger = logging.getLogger("stores."+__name__)
 
 
-def get_env(key):
+def get_env(key, default_value=None):
     try:
         return os.environ[key]
     except KeyError:
-        raise ImproperlyConfigured(
-            f"{key} is not part of environment variables, please add !"
-        )
+        if default_value is None:
+            raise ImproperlyConfigured(
+                f"{key} is not part of environment variables, please add !"
+            )
+        return default_value
 
 
 def create_thumbnails(pk, model, size_set, image_attr=None):

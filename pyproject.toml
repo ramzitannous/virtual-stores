@@ -28,6 +28,7 @@ celery_once = "^3.0.1"
 django-cors-headers = "^3.2.1"
 python-magic = "^0.4.18"
 drf-base64 = "^2.0"
+social-auth-app-django = "^3.1.0"
 
 [tool.poetry.dev-dependencies]
 factory-boy = "^2.12.0"

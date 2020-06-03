@@ -1,5 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.dispatch import receiver
+from django.db.models import signals
 from shared.fields import Base64ThumbnailField
 from accounts.models import Account
 from products.enum import ProductSize
@@ -74,3 +76,15 @@ class ProductImage(BaseModel):
 
     class Meta:
         verbose_name_plural = "Product Images"
+
+
+@receiver(signals.post_save, sender=ProductImage)
+def receive_product_created(sender, instance: ProductImage, created, **kwargs):
+    from products.tasks import create_product_thumbnails
+    create_product_thumbnails.delay(str(instance.id))
+
+
+@receiver(signals.post_save, sender=Category)
+def receive_category_created(sender, instance: Category, created, **kwargs):
+    from products.tasks import create_category_thumbnails
+    create_category_thumbnails.delay(str(instance.id))
