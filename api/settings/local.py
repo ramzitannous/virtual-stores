@@ -3,6 +3,8 @@ from config.celery import app
 
 DEBUG = True
 
+SECRET_KEY = "localsecretkey"
+
 CELERY_TASK_ALWAYS_EAGER = True
 
 INSTALLED_APPS += ["corsheaders"]

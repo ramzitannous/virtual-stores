@@ -12,12 +12,12 @@ from stores.serializers import StoreSerializer, StoreReviewSerializer
 
 class StoreViewMixin(ModelViewSet):
     serializer_class = StoreSerializer
-    queryset = Store.objects.select_related("address", "owner") \
+    queryset = Store.objects.select_related("address", "owner", "category") \
         .annotate(reviews_avg=Avg("reviews__rating"), reviews_count=Count("reviews")) \
         .filter(is_active=True)
     permission_classes = BUSINESS_PERMISSIONS
     ordering_fields = ("reviews_avg",)
-    filterset_fields = ("address__city", "name")
+    filterset_fields = ("address__city", "name", "category__name")
 
     @action(methods=["get"], detail=False, description="get my stores")
     def me(self, *args, **kwargs):

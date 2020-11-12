@@ -23,6 +23,7 @@ class Store(OwnerModel):
     open_time = models.TimeField()
     close_time = models.TimeField()
     deactivate_date = models.DateField(default=None, null=True)
+    category = models.ForeignKey("products.Category", on_delete=models.CASCADE)
 
     def delete(self, using=None, keep_parents=False):
         self.deactivate()
