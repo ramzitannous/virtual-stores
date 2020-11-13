@@ -18,7 +18,7 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=settings.local
     restart: unless-stopped
-    command: poetry run python manage.py runworker
+    command: poetry run python manage.py run --worker
   
   beat:
     container_name: beat
@@ -29,7 +29,7 @@ services:
       - DJANGO_SETTINGS_MODULE=settings.local
     depends_on:
       - worker
-    command: poetry run python manage.py runbeat
+    command: poetry run python manage.py run --beat
     restart: unless-stopped
 
   flower:
@@ -41,7 +41,7 @@ services:
       - DJANGO_SETTINGS_MODULE=settings.local
     depends_on:
       - worker
-    command: poetry run python manage.py runflower
+    command: poetry run python manage.py run --flower
     restart: unless-stopped
     ports:
       - 5555:5555

@@ -16,7 +16,7 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=settings.prod
     restart: unless-stopped
-    command: poetry run python manage.py runworker
+    command: poetry run python manage.py run --worker
   
   beat:
     container_name: beat
@@ -25,7 +25,7 @@ services:
       - DJANGO_SETTINGS_MODULE=settings.prod
     depends_on:
       - worker
-    command: poetry run python manage.py runbeat
+    command: poetry run python manage.py run --beat
     restart: unless-stopped
 
 
@@ -36,7 +36,7 @@ services:
       - DJANGO_SETTINGS_MODULE=settings.prod
     depends_on:
       - worker
-    command: poetry run python manage.py runflower
+    command: poetry run python manage.py run --flower
     restart: unless-stopped
 
   backend:

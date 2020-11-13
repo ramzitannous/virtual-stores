@@ -7,7 +7,8 @@ from accounts.models import Account
 from products.enum import ProductSize
 from shared.models import BaseModel, BaseReview, OwnerModel
 from versatileimagefield.fields import VersatileImageField, PPOIField
-from django.contrib.postgres.fields import ArrayField, JSONField
+from django.contrib.postgres.fields import ArrayField
+from django.db.models import JSONField
 import math
 from stores.models import Store
 
