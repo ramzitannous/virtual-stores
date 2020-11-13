@@ -1,3 +1,4 @@
+from shared.factories import CategoryFactory
 from shared.tests import BaseTestCase
 from stores.models import Store
 from accounts.models import Account
@@ -8,8 +9,8 @@ class TestStoreCreate(BaseTestCase):
         "name": "Test Store",
         "description": "test description",
         "phone": "asdfasdf",
-        "open_time": "12:00:PM",
-        "close_time": "12:00:PM",
+        "openTime": "12:00:PM",
+        "closeTime": "12:00:PM",
         "address": {
             "city": "ramallah",
             "street": "batten al hawa",
@@ -19,6 +20,8 @@ class TestStoreCreate(BaseTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        cat = CategoryFactory()
+        self.payload["category_id"] = str(cat.id)
         self.url = self.resolve_url("stores-list")
 
     def test_create_store_authenticated(self):

@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from django.db.models import signals
+from django.dispatch import receiver
 from versatileimagefield.fields import PPOIField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -67,3 +69,13 @@ class Account(AbstractUser, BaseModel):
 
     def delete(self, using=None, keep_parents=False):
         self.deactivate()
+
+
+@receiver(signals.post_save, sender=Account)
+def receive_account_created(sender, instance: Account, created, **kwargs):
+    from accounts.tasks import create_profile_thumbnail
+    if created:
+        create_profile_thumbnail.delay(str(instance.id))
+    elif kwargs.get("update_fields") is not None and \
+            "image" in kwargs.get("update_fields"):
+        create_profile_thumbnail.delay(str(instance.id))

@@ -1,4 +1,7 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from products.models import Category
+from products.serializers import CategorySerializer
 from shared.serializers import ReviewSerializer, Base64ThumbnailSerializer
 from stores.models import Store, StoreReview, StoreAddress
 
@@ -18,6 +21,8 @@ class StoreSerializer(serializers.ModelSerializer):
     address = StoreAddressSerializer(required=True, many=False)
     image = Base64ThumbnailSerializer(sizes="store", required=False)
     deactivate_date = serializers.DateField(read_only=True)
+    category_id = serializers.UUIDField(required=True, write_only=True)
+    category = CategorySerializer(read_only=True)
 
     class Meta:
         model = Store
@@ -28,7 +33,8 @@ class StoreSerializer(serializers.ModelSerializer):
         address_serializer = StoreAddressSerializer(data=address)
         address_serializer.is_valid(raise_exception=True)
         address = address_serializer.save()
-        return Store.objects.create(**validated_data, address=address)
+        category = get_object_or_404(Category, id=validated_data.pop("category_id"))
+        return Store.objects.create(**validated_data, address=address, category=category)
 
     def update(self, instance: Store, validated_data: dict):
         if "address" in validated_data:

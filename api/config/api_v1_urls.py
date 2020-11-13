@@ -1,5 +1,5 @@
 import logging
-from accounts.views import AccountViewSet
+from accounts.views import AccountViewSet, SocialLoginView
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
@@ -24,6 +24,7 @@ v1_router.register(r"products/(?P<product_id>[^/]+)/reviews", ProductReviewListC
 
 urlpatterns = [
     path('', include('djoser.urls.jwt')),
+    path("social", SocialLoginView.as_view(), name="social-login")
 ] + v1_router.urls
 
 logger = logging.getLogger("stores.urls")

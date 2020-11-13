@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from versatileimagefield.serializers import VersatileImageFieldSerializer
-from stores.serializers import StoreSerializer
 from products.enum import ProductSize
 from products.models import Category, Product, ProductReview
 from shared.serializers import ReviewSerializer, Base64ThumbnailSerializer
@@ -26,7 +25,7 @@ class ProductCreateImageSerializer(serializers.Serializer):
     images = serializers.ListSerializer(child=Base64ThumbnailSerializer(sizes="product", required=True))
 
 
-class StoreSummary(StoreSerializer):
+class StoreSummary(serializers.ModelSerializer):
     address = None
     ppoi_field = None
 

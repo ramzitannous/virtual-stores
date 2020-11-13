@@ -28,16 +28,12 @@ BASE_DIR = pathlib.Path(os.path.dirname(__file__)).parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "xv+-#_8yxr^jb4$wqvl)&ugy#=i0f%pnj6%a)(s!fc9)w7-z6s"
-
 # SECURITY WARNING: don"t run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [get_env("DOMAIN_NAME", "localhost")]
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -49,9 +45,9 @@ INSTALLED_APPS = [
 
 MY_APPS = [
     "shared",
-    "accounts.apps.AccountsConfig",
+    "accounts",
     "stores",
-    "products.apps.ProductsConfig"
+    "products"
 ]
 
 THIRD_PARTY_APPS = [
@@ -60,7 +56,8 @@ THIRD_PARTY_APPS = [
     "drf_yasg",
     "django_filters",
     "djoser",
-    "versatileimagefield"
+    "versatileimagefield",
+    "social_django"
 ]
 
 INSTALLED_APPS += MY_APPS + THIRD_PARTY_APPS
@@ -138,7 +135,7 @@ LOGIN_URL = "/auth/login"
 
 LOGOUT_URL = "/auth/logout"
 
-enable_email = bool(int(get_env("ENABLE_EMAIL")))
+enable_email = bool(int(get_env("ENABLE_EMAIL", 0)))
 
 DJOSER = {
     "SERIALIZERS": {
@@ -233,4 +230,38 @@ VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
 
 VERSATILEIMAGEFIELD_SETTINGS = {
     "create_images_on_demand": False
+}
+
+# social login
+USER_FIELDS = ("email", "first_name", "last_name", "image", "gender")
+
+SOCIAL_AUTH_PIPELINE = (
+    "social_core.pipeline.social_auth.social_details",
+    "social_core.pipeline.social_auth.social_uid",
+    "social_core.pipeline.social_auth.social_user",
+    "social_core.pipeline.social_auth.associate_by_email",
+    "accounts.managers.get_extra_info",
+    "social_core.pipeline.user.create_user",
+    "accounts.managers.save_image",
+    "social_core.pipeline.social_auth.associate_user",
+    "social_core.pipeline.social_auth.load_extra_data",
+    "social_core.pipeline.user.user_details",
+)
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "social_core.backends.google.GoogleOAuth2",
+    "social_core.backends.facebook.FacebookOAuth2",
+    "social_core.backends.instagram.InstagramOAuth2"
+)
+
+# gmail
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = get_env("GOOGLE_KEY", "")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = get_env("GOOGLE_SECRET", "")
+
+# facebook
+SOCIAL_AUTH_FACEBOOK_KEY = get_env("FACEBOOK_KEY", "")
+SOCIAL_AUTH_FACEBOOK_SECRET = get_env("FACEBOOK_SECRET", "")
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    "fields": "id,first_name,last_name,gender,picture,address,email"
 }
