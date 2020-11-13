@@ -2,7 +2,7 @@ FROM python:3.8.2-alpine3.11
 
 RUN mkdir /code /code/scripts && \
     apk add  jpeg-dev zlib-dev libmagic && \
-    apk add --no-cache --virtual build-deps gcc musl-dev curl jpeg-dev zlib-dev && \
+    apk add --no-cache --virtual build-deps gcc musl-dev curl jpeg-dev zlib-dev libffi-dev && \
     apk add postgresql-dev && \
     curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 
