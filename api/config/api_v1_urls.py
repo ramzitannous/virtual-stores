@@ -29,6 +29,3 @@ urlpatterns = [
 
 logger = logging.getLogger("stores.urls")
 
-if settings.DEBUG:
-    for url in urlpatterns:
-        logger.debug(url)
