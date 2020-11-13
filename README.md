@@ -79,4 +79,5 @@ The idea for the project is that store owners can open virtual stores to show th
 |`python manage.py run --waitdb` | wait for database to be ready |              
               
               
-**Deployment** 1. Heroku Deploy check .github folder
+**Deployment**
+ 1. Heroku Deploy check .github folder
