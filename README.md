@@ -1,3 +1,4 @@
+
 **Virtual Stores API Server** 
 The idea for the project is that store owners can open virtual stores to show their products with images & description, then users can add reviews and buy them.    
     
@@ -29,7 +30,10 @@ The idea for the project is that store owners can open virtual stores to show th
 18. shared app that contains base models & classes for other apps,    
 19. run commands using django BaseCommand  
   
- **Setup Guide** 1. Install poetry              
+  **UML Diagram**
+  ![DB Image](https://raw.githubusercontent.com/ramzitannous/virtual-stores/master/db_uml.png?token=AFHYIN4Y4TY4ZIAKMU5MFEK7XAH6Q)
+ **Setup Guide** 
+ 1. Install poetry              
 [https://python-poetry.org/docs/](https://python-poetry.org/docs/)              
               
  2. Install dependances              
