@@ -14,7 +14,7 @@ The idea for the project is that store owners can open virtual stores to show th
 1. Multiple environments (dev, build, prod, testing, heroku)     
  2. Python Package Management using [python-poetry](https://python-poetry.org/)    
  3. Container based deployment using docker & docker-compose    
- 4. Project configuration using environment variables  [python-dotenv](https://pypi.org/project/python-dotenv/)    
+ 4. Project configuration using environment variables and .env file  [python-dotenv](https://pypi.org/project/python-dotenv/)    
  5. Ability to handle high loads of concurrent requests using [uvicorn](https://github.com/encode/uvicorn) that implements  [uvloop](https://github.com/MagicStack/uvloop) (Ultra fast asyncio event loop) to handle high loads     
  6. Unit & integration testing with mocked DB objects using [django-factory_boy](https://github.com/FactoryBoy/django-factory_boy) and [pytest](https://github.com/pytest-dev/pytest)    
  7. User Management and Authentication  [djoser](https://github.com/sunscrapers/djoser) and [django-rest-framework-simplejwt](https://github.com/SimpleJWT/django-rest-framework-simplejwt)    
