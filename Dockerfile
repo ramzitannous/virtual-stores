@@ -15,7 +15,7 @@ COPY ./pyproject.toml .
 COPY ./poetry.lock .
 
 RUN poetry config virtualenvs.in-project true && \
-    poetry install --no-dev
+    poetry install
     
 RUN apk del build-deps 
 
