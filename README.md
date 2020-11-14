@@ -39,8 +39,9 @@ The idea for the project is that store owners can open virtual stores to show th
               
  2. Install dependances              
               
-    `poetry config virtualenvs.in-project true && poetry install` 3. create .env file              
-                          
+    `poetry config virtualenvs.in-project true && poetry install`
+
+ 3. create .env file                         
               
 | Name | required |              
 |--|--|              
@@ -60,12 +61,17 @@ The idea for the project is that store owners can open virtual stores to show th
 |GOOGLE_KEY|false|      
 |GOOGLE_SECRET|false|      
 |FACEBOOK_KEY|false|      
-|FACEBOOK_SECRET| false|       
+|FACEBOOK_SECRET| false|  
+
  4. install postgres db or run it from docker-compose          
-  `docker-compose -f docker-compose.local.yaml -p stores up -d db` 5. login to  postgres database            
-  `psql postgres -h localhost -p 5432 -U postgres -W` 6. create stores database            
-   ` CREATE DATABASE stores;` 7. Create local admin using ADMIN_EMAIL, ADMIN_PASSWORD:              
- `python manage.py run --createadmin` 8. run migrations              
+  `docker-compose -f docker-compose.local.yaml -p stores up -d db` 
+ 5. login to  postgres database            
+  `psql postgres -h localhost -p 5432 -U postgres -W` 
+ 6. create stores database            
+   ` CREATE DATABASE stores;` 
+ 7. Create local admin using ADMIN_EMAIL, ADMIN_PASSWORD:              
+ `python manage.py run --createadmin`
+ 8. run migrations              
 `python manage.py migrate`              
               
  **Commands**         
