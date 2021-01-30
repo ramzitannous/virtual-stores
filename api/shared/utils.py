@@ -1,6 +1,9 @@
 import logging
 import os
+from typing import Type
+
 from django.core.exceptions import ImproperlyConfigured
+from django.db import models
 
 logger = logging.getLogger("stores."+__name__)
 
@@ -16,7 +19,7 @@ def get_env(key, default_value=None):
         return default_value
 
 
-def create_thumbnails(pk, model, size_set, image_attr=None):
+def create_thumbnails(pk: str, model: Type[models.Model], size_set: str, image_attr=None):
     from versatileimagefield.image_warmer import VersatileImageFieldWarmer
 
     instance = model.objects.get(pk=pk)
