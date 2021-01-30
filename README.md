@@ -62,6 +62,9 @@ The idea for the project is that store owners can open virtual stores to show th
 |GOOGLE_SECRET|false|      
 |FACEBOOK_KEY|false|      
 |FACEBOOK_SECRET| false|  
+|GS_BUCKET_NAME| true|  
+|GS_CREDENTIALS| true|  
+
 
  4. install postgres db or run it from docker-compose          
   `docker-compose -f docker-compose.local.yaml -p stores up -d db` 
