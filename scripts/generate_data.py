@@ -70,7 +70,7 @@ def generate_store(account_id: str, count=1):
         store_data = {
             "name": fake.company(),
             "description": fake.catch_phrase(),
-            "phone": fake.phone_number(),
+            "phone": fake.msisdn(),
             "open_time": fake.time("%H:%M:%p"),
             "close_time": fake.time("%H:%M:%p"),
         }

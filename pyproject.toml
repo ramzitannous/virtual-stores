@@ -31,6 +31,7 @@ drf-base64 = "^2.0"
 social-auth-app-django = "~4.0.0"
 uvicorn = {extras = ["standard"], version = "^0.12.2"}
 celery = "~4.4.7"
+django-storages = {extras = ["google"], version = "^1.11.1"}
 
 [tool.poetry.dev-dependencies]
 factory-boy = "^2.12.0"
