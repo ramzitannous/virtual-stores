@@ -1,6 +1,5 @@
-pip install -U pip &&
-pip install -r requirements.txt && \
+poetry install --dev && \
 cd api && \
-python manage.py migrate --settings=settings.test && \
-python manage.py test --settings=settings.test --no-input && \
+poetry run python manage.py migrate --settings=settings.test && \
+poetry run python manage.py test --settings=settings.test --no-input && \
 rm -r ../media
