@@ -106,13 +106,12 @@ def generate_reviews(owner_id: str, model, _id: str, count=1):
 def generate_products(store_id: str, count=1) -> List[Product]:
     print(f"generating {count} products for store {store_id}")
     store = Store.objects.select_related("owner").get(id=store_id)
-    category, _ = Category.objects.get_or_create(name="Clothing")
     products_img = IMG_DIR / 'products'
     _products = []
-    for _ in range(count):
+    for i in range(count):
         for p in products_img.iterdir():
             product = Product()
-            product.name = p.name
+            product.name = f"{p.name}-{i}"
             product.description = f"{p.name} dummy product"
             product.price = fake.random.randint(10, 200)
             product.store = store
@@ -125,6 +124,7 @@ def generate_products(store_id: str, count=1) -> List[Product]:
             for _ in range(5):
                 colors.append(fake.color_name())
             product.colors = colors
+            category, _ = Category.objects.get_or_create(name=p.name)
             product.category = category
             product.quantity = random.randint(10, 50)
             product.owner = store.owner
