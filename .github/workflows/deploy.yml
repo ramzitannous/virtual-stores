@@ -66,6 +66,7 @@ jobs:
           touch .env
           echo GS_BUCKET_NAME=${{ secrets.GS_BUCKET_NAME }} > .env
           echo GS_CREDENTIALS=${{ secrets.GS_CREDENTIALS }} >> .env
+          ls
           
       - name: Publish image
         uses: elgohr/Publish-Docker-Github-Action@master
