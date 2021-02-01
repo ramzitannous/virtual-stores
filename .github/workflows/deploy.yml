@@ -61,6 +61,12 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login 
 
+      - name: create env file
+        run: |
+          touch .env
+          echo GS_BUCKET_NAME=${{ secrets.GS_BUCKET_NAME }} > .env
+          echo GS_CREDENTIALS=${{ secrets.GS_CREDENTIALS }} >> .env
+          
       - name: Publish image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
@@ -69,7 +75,7 @@ jobs:
           password: "${{ secrets.HEROKU_API_KEY }}"
           registry: registry.heroku.com
           cache: true
-          buildargs: GITHUB_SHA,GITHUB_REF,GS_CREDENTIALS,GS_BUCKET_NAME
+          buildargs: GITHUB_SHA,GITHUB_REF
         env: 
           GS_CREDENTIALS: ${{ secrets.GS_CREDENTIALS }}
           GS_BUCKET_NAME: ${{ secrets.GS_BUCKET_NAME }}
