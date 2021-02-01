@@ -1,3 +1,5 @@
+from typing import List
+
 import click
 from pathlib import Path
 
@@ -101,11 +103,12 @@ def generate_reviews(owner_id: str, model, _id: str, count=1):
     return reviews
 
 
-def generate_products(store_id: str, count=1):
+def generate_products(store_id: str, count=1) -> List[Product]:
     print(f"generating {count} products for store {store_id}")
     store = Store.objects.select_related("owner").get(id=store_id)
     category, _ = Category.objects.get_or_create(name="Clothing")
     products_img = IMG_DIR / 'products'
+    _products = []
     for _ in range(count):
         for p in products_img.iterdir():
             product = Product()
@@ -132,6 +135,8 @@ def generate_products(store_id: str, count=1):
                 product_img.image.save(f"{p.name}-{img.name}",
                                        File(open(str(img.absolute()), "rb")))
                 product.save()
+            _products.append(product)
+        return _products
 
 
 #########################################################################
@@ -188,6 +193,18 @@ def product_reviews(product_id: str, count: int, owner: str):
     for review in reviews:
         review.product = product
         review.save()
+
+
+@cli.command("generate_data", help="generate data")
+@click.argument("count", type=int)
+def generate_data(count: int):
+    _accounts = generate_accounts(count)
+    for account in _accounts:
+        stores = generate_store(account.id, 5)
+        for store in stores:
+            _products = generate_products(store.id, 30)
+            for product in _products:
+                generate_reviews(account.id, ProductReview, product.id, 2)
 
 
 if __name__ == "__main__":
