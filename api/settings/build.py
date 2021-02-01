@@ -7,7 +7,7 @@ BASE_DIR = pathlib.Path(os.path.dirname(__file__)).parent
 
 STATIC_URL = "/static/"
 STATIC_ROOT = "static"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
 INSTALLED_APPS = [
     "django.contrib.admin",

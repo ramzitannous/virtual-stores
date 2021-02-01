@@ -90,6 +90,7 @@ class SocialInputSerializer(serializers.Serializer):
         user = backend.do_auth(self.validated_data['access_token'])
         return user
 
+
 class JWTResponseSerializer(serializers.Serializer):
     access = serializers.CharField(max_length=500)
     refresh = serializers.CharField(max_length=500)
