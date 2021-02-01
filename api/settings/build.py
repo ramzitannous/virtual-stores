@@ -12,7 +12,7 @@ BASE_DIR = pathlib.Path(os.path.dirname(__file__)).parent
 
 STATIC_URL = "/static/"
 STATIC_ROOT = "static"
-
+print(os.environ)
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = get_env('GS_BUCKET_NAME')
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
