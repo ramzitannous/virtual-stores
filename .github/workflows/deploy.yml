@@ -69,7 +69,10 @@ jobs:
           password: "${{ secrets.HEROKU_API_KEY }}"
           registry: registry.heroku.com
           cache: true
-          buildargs: GITHUB_SHA,GITHUB_REF
+          buildargs: GITHUB_SHA,GITHUB_REF,GS_CREDENTIALS,GS_BUCKET_NAME
+        env: 
+          GS_CREDENTIALS: ${{ secrets.GS_CREDENTIALS }}
+          GS_BUCKET_NAME: ${{ secrets.GS_BUCKET_NAME }}
 
       - name: Release
         env:
