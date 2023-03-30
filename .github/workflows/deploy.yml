@@ -70,7 +70,7 @@ jobs:
           cat .env
            
       - name: Publish image
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
           username: _
